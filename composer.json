@@ -1,0 +1,27 @@
+{
+	"name" : "orpheus/orpheus-caceh",
+	"description" : "Orpheus Cache",
+	"keywords" : [
+		"orpheus",
+		"cache",
+		"filesystem",
+		"apc"
+	],
+	"autoload" : {
+		"psr-4" : {
+			"Orpheus\\" : "src"
+		},
+		"files" : [
+			"src/_loader.php"
+		]
+	},
+	"type" : "library",
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "Florent HAZARD",
+			"email" : "contact@sowapps.com",
+			"homepage" : "http://sowapps.com",
+			"role" : "Developer"
+		}
+	]
+}
