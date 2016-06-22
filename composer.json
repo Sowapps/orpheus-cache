@@ -10,10 +10,7 @@
 	"autoload" : {
 		"psr-4" : {
 			"Orpheus\\" : "src"
-		},
-		"files" : [
-			"src/_loader.php"
-		]
+		}
 	},
 	"type" : "library",
 	"license" : "MIT",
