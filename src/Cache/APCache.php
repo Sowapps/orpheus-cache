@@ -2,7 +2,8 @@
 
 namespace Orpheus\Cache;
 
-/** The apc cache class
+/**
+ * The APC cache class
  * Uses APC feature to cache data.
  * This class is useful for perishable data.
  * So, it requires the APC lib to be installed on the server.
@@ -50,7 +51,9 @@ class APCache implements Cache {
 		return apc_store($this->key, $data, $this->ttl);
 	}
 	
-	/** Reset the cache
+	/**
+	 * Reset the cache
+	 * 
 	 * @return boolean True in case of success
 	 * 
 	 * This method uses the apc_delete() function.

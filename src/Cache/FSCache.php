@@ -91,4 +91,13 @@ class FSCache implements Cache {
 	public static function getFilePath($class, $name) {
 		return static::getFolderPath($class).strtr($name, '/', '_').static::$ext;
 	}
+
+	/**
+	 * Reset the cache
+	 * @return boolean True in case of success
+	 * This method uses the unlink() function.
+	 */
+	public function reset() {
+		unlink($this->path);
+	}
 }

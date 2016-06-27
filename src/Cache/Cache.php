@@ -24,4 +24,10 @@ interface Cache {
 	 * @return True if cache has been saved
 	 */
 	public function set($data);
+
+	/**
+	 * Reset the cache
+	 * @return boolean True in case of success
+	 */
+	public function reset();
 }
