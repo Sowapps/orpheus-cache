@@ -14,14 +14,27 @@ namespace Orpheus\Cache;
  * http://php.net/manual/en/book.apc.php
  */
 class APCache implements Cache {
-
+	
+	/**
+	 * the key
+	 * 
+	 * @var string
+	 */
 	protected $key;
+	
+	/**
+	 * The time to live
+	 * 
+	 * @var int
+	 */
 	protected $ttl;
 	
-	/** Constructor
+	/**
+	 * Constructor
+	 * 
 	 * @param string $class The class of the cache
 	 * @param string $name The name of this cache
-	 * @param integer $ttl The time to live in seconds, the delay the cache expires for. Default value is 0 (manual delete only).
+	 * @param int $ttl The time to live in seconds, the delay the cache expires for. Default value is 0 (manual delete only).
 	 */
 	public function __construct($class, $name, $ttl=0) {
 		$this->ttl = $ttl;
@@ -29,7 +42,9 @@ class APCache implements Cache {
 // 		$this->get($cached);
 	}
 	
-	/** Gets the cache for the given parameters
+	/**
+	 * Get the cache for the given parameters
+	 * 
 	 * @param mixed $cached The output to get the cache
 	 * @return boolean True if cache has been retrieved
 	 * 
@@ -44,7 +59,9 @@ class APCache implements Cache {
 		return $success;
 	}
 	
-	/** Sets the cache for the given parameters
+	/**
+	 * Set the cache for the given parameters
+	 * 
 	 * @param mixed $data The data to put in the cache
 	 * @return boolean True if cache has been saved
 	 * 

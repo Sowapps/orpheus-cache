@@ -5,25 +5,48 @@
 
 namespace Orpheus\Cache;
 
-/** The file system cache class
-
- * Uses File System to cache data.
- * This class is useful for dated data.
+/**
+ * The file system cache class
+ * 
+ * Uses File System to cache data. This class is useful for dated data.
  * This class requires a CACHEPATH constant containing the path to the cache folder, you can also override getFolderPath() to determine the path by another way.
  */
 class FSCache implements Cache {
-
+	
+	/**
+	 * The path to the cache
+	 * 
+	 * @var string
+	 */
 	protected $path;
+	
+	/**
+	 * The edit time to use
+	 * 
+	 * @var int
+	 */
 	protected $editTime;
-
+	
+	/**
+	 * The extension of cache files
+	 * 
+	 * @var string
+	 */
 	protected static $ext='.cache';
+	
+	/**
+	 * The delimitator in cache file
+	 * 
+	 * @var string
+	 */
 	protected static $delim='|';
 	
-	/** Constructor
-
-	 * @param $class The class of the cache
-	 * @param $name The name of this cache
-	 * @param $editTime The last modification time of the cache. Default value is 0 (undefined).
+	/**
+	 * Constructor
+	 * 
+	 * @param string $class The class of the cache
+	 * @param string $name The name of this cache
+	 * @param int $editTime The last modification time of the cache. Default value is 0 (undefined).
 	 */
 	public function __construct($class, $name, $editTime=null) {
 		$this->editTime = $editTime;
@@ -34,8 +57,9 @@ class FSCache implements Cache {
 		}
 	}
 	
-	/** Gets the cache for the given parameters
-
+	/**
+	 * Get the cache for the given parameters
+	 * 
 	 * @param $cached The output to get the cache
 	 * @return True if cache has been retrieved
 	 *
@@ -57,8 +81,9 @@ class FSCache implements Cache {
 		return true;
 	}
 	
-	/** Sets the cache for the given parameters
-
+	/**
+	 * Set the cache for the given parameters
+	 * 
 	 * @param $data The data to put in the cache
 	 * @return True if cache has been saved
 	 * @sa serialize()
@@ -76,8 +101,9 @@ class FSCache implements Cache {
 		}
 	}
 	
-	/** Gets the folder path for the cache
-
+	/**
+	 * Get the folder path for the cache
+	 * 
 	 * @param $class The class to use
 	 * @return The path of this cache folder in the global cache folder.
 	 */
@@ -85,8 +111,9 @@ class FSCache implements Cache {
 		return CACHEPATH.$class.'/';
 	}
 	
-	/** Gets the fle path of this cache
-
+	/**
+	 * Get the fle path of this cache
+	 * 
 	 * @param $class The class to use
 	 * @param $name The name to use
 	 * @return The path of this cache file.
@@ -97,6 +124,7 @@ class FSCache implements Cache {
 
 	/**
 	 * Reset the cache
+	 * 
 	 * @return boolean True in case of success
 	 * This method uses the unlink() function.
 	 */

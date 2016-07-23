@@ -14,6 +14,7 @@ interface Cache {
 	
 	/**
 	 * Get the cache for the given parameters
+	 * 
 	 * @param $cached The output to get the cache
 	 * @return True if cache has been retrieved
 	 * 
@@ -23,6 +24,7 @@ interface Cache {
 	
 	/**
 	 * Set the cache for the given parameters
+	 * 
 	 * @param $data The data to put in the cache
 	 * @return True if cache has been saved
 	 */
@@ -30,6 +32,7 @@ interface Cache {
 
 	/**
 	 * Reset the cache
+	 * 
 	 * @return boolean True in case of success
 	 */
 	public function reset();
