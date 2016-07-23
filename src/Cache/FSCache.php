@@ -1,4 +1,7 @@
 <?php
+/**
+ * FSCache
+ */
 
 namespace Orpheus\Cache;
 

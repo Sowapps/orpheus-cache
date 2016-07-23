@@ -1,4 +1,7 @@
 <?php
+/**
+ * CacheException
+ */
 
 namespace Orpheus\Cache;
 

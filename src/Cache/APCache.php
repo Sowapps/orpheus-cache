@@ -1,4 +1,7 @@
 <?php
+/**
+ * APCache
+ */
 
 namespace Orpheus\Cache;
 
