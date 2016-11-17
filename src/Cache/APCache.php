@@ -29,7 +29,8 @@ class APCache implements Cache {
 	 */
 	protected $ttl;
 	
-	protected static $useAPCu;
+// 	protected static $useAPCu;
+	protected static $APCavailable;
 	
 	/**
 	 * Constructor
@@ -41,8 +42,11 @@ class APCache implements Cache {
 	public function __construct($class, $name, $ttl=0) {
 		$this->ttl = $ttl;
 		$this->key = $class.'.'.$name.'@'.INSTANCE_ID;
-		if( static::$useAPCu === null ) {
-			static::$useAPCu = function_exists('apcu_fetch');
+// 		if( static::$useAPCu === null ) {
+// 			static::$useAPCu = function_exists('apcu_fetch');
+// 		}
+		if( static::$APCavailable === null ) {
+			static::$APCavailable = function_exists('apc_fetch');
 		}
 	}
 	
@@ -56,7 +60,13 @@ class APCache implements Cache {
 	 * The type is preserved, even for objects.
 	 */
 	public function get(&$cached) {
-		$fc = static::$useAPCu ? apcu_fetch($this->key, $success) : apc_fetch($this->key, $success);
+		if( static::$APCavailable ) {
+			$fc = apc_fetch($this->key, $success);
+		} else {
+			$fc = false;
+			$success = false;
+		}
+// 		$fc = static::$useAPCu ? apcu_fetch($this->key, $success) : apc_fetch($this->key, $success);
 		if( $fc !== false ) {
 			$cached = $fc;
 		}
@@ -72,7 +82,8 @@ class APCache implements Cache {
 	 * This method uses the apc_store() function.
 	 */
 	public function set($data) {
-		return static::$useAPCu ? apcu_store($this->key, $data, $this->ttl) : apc_store($this->key, $data, $this->ttl);
+		return static::$APCavailable ? apc_store($this->key, $data, $this->ttl) : false;
+// 		return static::$useAPCu ? apcu_store($this->key, $data, $this->ttl) : apc_store($this->key, $data, $this->ttl);
 	}
 	
 	/**
@@ -94,6 +105,7 @@ class APCache implements Cache {
 	 * This method uses the apc_delete() function.
 	 */
 	public function clear() {
-		return static::$useAPCu ? apcu_delete($this->key) : apc_delete($this->key);
+		return static::$APCavailable ? apc_delete($this->key) : false;
+// 		return static::$useAPCu ? apcu_delete($this->key) : apc_delete($this->key);
 	}
 }
