@@ -16,35 +16,35 @@ namespace Orpheus\Cache;
 class APCache implements Cache {
 	
 	/**
+	 * Is APC Available ?
+	 *
+	 * @var bool
+	 */
+	protected static $APCavailable;
+	
+	/**
 	 * the key
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $key;
-	
 	/**
 	 * The time to live
-	 * 
+	 *
 	 * @var int
 	 */
 	protected $ttl;
 	
-// 	protected static $useAPCu;
-	protected static $APCavailable;
-	
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param string $class The class of the cache
 	 * @param string $name The name of this cache
 	 * @param int $ttl The time to live in seconds, the delay the cache expires for. Default value is 0 (manual delete only).
 	 */
-	public function __construct($class, $name, $ttl=0) {
+	public function __construct($class, $name, $ttl = 0, $global = false) {
 		$this->ttl = $ttl;
-		$this->key = $class.'.'.$name.'@'.INSTANCE_ID;
-// 		if( static::$useAPCu === null ) {
-// 			static::$useAPCu = function_exists('apcu_fetch');
-// 		}
+		$this->key = $class . '.' . $name . ($global ? '' : '@' . INSTANCE_ID);
 		if( static::$APCavailable === null ) {
 			static::$APCavailable = function_exists('apc_fetch');
 		}
@@ -52,10 +52,10 @@ class APCache implements Cache {
 	
 	/**
 	 * Get the cache for the given parameters
-	 * 
+	 *
 	 * @param mixed $cached The output to get the cache
 	 * @return boolean True if cache has been retrieved
-	 * 
+	 *
 	 * This method uses the apc_fetch() function.
 	 * The type is preserved, even for objects.
 	 */
@@ -66,7 +66,6 @@ class APCache implements Cache {
 			$fc = false;
 			$success = false;
 		}
-// 		$fc = static::$useAPCu ? apcu_fetch($this->key, $success) : apc_fetch($this->key, $success);
 		if( $fc !== false ) {
 			$cached = $fc;
 		}
@@ -75,23 +74,22 @@ class APCache implements Cache {
 	
 	/**
 	 * Set the cache for the given parameters
-	 * 
+	 *
 	 * @param mixed $data The data to put in the cache
 	 * @return boolean True if cache has been saved
-	 * 
+	 *
 	 * This method uses the apc_store() function.
 	 */
 	public function set($data) {
 		return static::$APCavailable ? apc_store($this->key, $data, $this->ttl) : false;
-// 		return static::$useAPCu ? apcu_store($this->key, $data, $this->ttl) : apc_store($this->key, $data, $this->ttl);
 	}
 	
 	/**
 	 * Reset the cache
-	 * 
+	 *
 	 * @return boolean True in case of success
 	 * @deprecated Use clear()
-	 * 
+	 *
 	 * This method uses the apc_delete() function.
 	 */
 	public function reset() {
@@ -100,12 +98,12 @@ class APCache implements Cache {
 	
 	/**
 	 * Clear the cache
+	 *
 	 * @return boolean True in case of success
-	 * 
+	 *
 	 * This method uses the apc_delete() function.
 	 */
 	public function clear() {
 		return static::$APCavailable ? apc_delete($this->key) : false;
-// 		return static::$useAPCu ? apcu_delete($this->key) : apc_delete($this->key);
 	}
 }
