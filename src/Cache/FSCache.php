@@ -11,7 +11,7 @@ use Exception;
  * The file system cache class
  *
  * Uses File System to cache data. This class is useful for dated data.
- * This class requires a CACHEPATH constant containing the path to the cache folder, you can also override getFolderPath() to determine the path by another way.
+ * This class requires a CACHE_PATH constant containing the path to the cache folder, you can also override getFolderPath() to determine the path by another way.
  */
 class FSCache implements Cache {
 	
@@ -78,7 +78,7 @@ class FSCache implements Cache {
 	 * @return string The path of this cache folder in the global cache folder.
 	 */
 	public static function getFolderPath($class) {
-		return CACHEPATH . $class . '/';
+		return CACHE_PATH . $class . '/';
 	}
 	
 	/**
@@ -140,10 +140,10 @@ class FSCache implements Cache {
 	 */
 	public static function listAll() {
 		$list = [];
-		foreach( cleanscandir(CACHEPATH) as $cPath ) {
+		foreach( cleanscandir(CACHE_PATH) as $cPath ) {
 			$list[$cPath] = [];
-			foreach( cleanscandir(CACHEPATH . $cPath) as $fPath ) {
-				$list[$cPath][pathinfo($fPath, PATHINFO_FILENAME)] = CACHEPATH . $cPath . '/' . $fPath;
+			foreach( cleanscandir(CACHE_PATH . $cPath) as $fPath ) {
+				$list[$cPath][pathinfo($fPath, PATHINFO_FILENAME)] = CACHE_PATH . $cPath . '/' . $fPath;
 			}
 		}
 		return $list;
