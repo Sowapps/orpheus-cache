@@ -20,28 +20,28 @@ class FSCache implements Cache {
 	 *
 	 * @var string
 	 */
-	protected static $ext = '.cache';
+	protected static string $ext = '.cache';
 	
 	/**
-	 * The delimitator in cache file
+	 * The delimiter in cache file
 	 *
 	 * @var string
 	 */
-	protected static $delim = '|';
+	protected static string $delim = '|';
 	
 	/**
 	 * The path to the cache
 	 *
 	 * @var string
 	 */
-	protected $path;
+	protected string $path;
 	
 	/**
 	 * The edit time to use
 	 *
 	 * @var int
 	 */
-	protected $editTime;
+	protected ?int $editTime = null;
 	
 	/**
 	 * Constructor
@@ -56,7 +56,7 @@ class FSCache implements Cache {
 		$this->path = static::getFilePath($class, $name);
 		$folder = static::getFolderPath($class);
 		if( !is_dir($folder) && !mkdir($folder, 0777, true) ) {
-			throw new \Exception('unwritableClassFolder');
+			throw new Exception('unwritableClassFolder');
 		}
 	}
 	
@@ -67,8 +67,8 @@ class FSCache implements Cache {
 	 * @param string $name The name to use
 	 * @return string The path of this cache file.
 	 */
-	public static function getFilePath($class, $name) {
-		return static::getFolderPath($class) . strtr($name, '/', '_') . static::$ext;
+	public static function getFilePath($class, $name): string {
+		return static::getFolderPath($class) . '/' . strtr($name, '/', '_') . static::$ext;
 	}
 	
 	/**
@@ -77,20 +77,19 @@ class FSCache implements Cache {
 	 * @param string $class The class to use
 	 * @return string The path of this cache folder in the global cache folder.
 	 */
-	public static function getFolderPath($class) {
-		return CACHE_PATH . $class . '/';
+	public static function getFolderPath($class): string {
+		return CACHE_PATH . '/' . $class;
 	}
 	
 	/**
 	 * Get the cache for the given parameters
+	 * This method serializes the data in the file using json_encode().
+	 * The type is preserved, even for objects.
 	 *
 	 * @param mixed $cached The output to get the cache
 	 * @return bool True if cache has been retrieved
-	 *
-	 * This method serializes the data in the file using json_encode().
-	 * The type is preserved, even for objects.
 	 */
-	public function get(&$cached) {
+	public function get(&$cached): bool {
 		try {
 			if( !is_readable($this->path) ) {
 				return false;
@@ -101,7 +100,7 @@ class FSCache implements Cache {
 			}
 			$cached = unserialize($data);
 		} catch( Exception $e ) {
-			// If error opening file or unserializing occurred, it's a fail
+			// If error opening file or un-serializing occurred, it's a fail
 			return false;
 		}
 		return true;
@@ -109,15 +108,15 @@ class FSCache implements Cache {
 	
 	/**
 	 * Set the cache for the given parameters
+	 * This method un-serializes the data in the file using json_decode().
+	 * The type is saved too.
 	 *
 	 * @param mixed $data The data to put in the cache
 	 * @return bool True if cache has been saved
+	 * @throws CacheException
 	 * @see serialize()
-	 *
-	 * This method unserializes the data in the file using json_decode().
-	 * The type is saved too.
 	 */
-	public function set($data) {
+	public function set($data): bool {
 		try {
 			return file_put_contents($this->path, $this->editTime . static::$delim . serialize($data));
 		} catch( Exception $e ) {
@@ -127,7 +126,7 @@ class FSCache implements Cache {
 	
 	/**
 	 * Reset the cache
-	 * This method uses the unlink() function.
+	 * This method uses unlink() function.
 	 */
 	public function reset() {
 		unlink($this->path);
@@ -136,16 +135,17 @@ class FSCache implements Cache {
 	/**
 	 * List all FS Cache files
 	 *
-	 * @return array All cache files by class.
+	 * @return string[] All cache files by class.
 	 */
-	public static function listAll() {
+	public static function listAll(): array {
 		$list = [];
 		foreach( cleanscandir(CACHE_PATH) as $cPath ) {
 			$list[$cPath] = [];
-			foreach( cleanscandir(CACHE_PATH . $cPath) as $fPath ) {
-				$list[$cPath][pathinfo($fPath, PATHINFO_FILENAME)] = CACHE_PATH . $cPath . '/' . $fPath;
+			foreach( cleanscandir(CACHE_PATH . '/' . $cPath) as $fPath ) {
+				$list[$cPath][pathinfo($fPath, PATHINFO_FILENAME)] = CACHE_PATH . '/' . $cPath . '/' . $fPath;
 			}
 		}
+		
 		return $list;
 	}
 }
