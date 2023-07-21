@@ -1,24 +1,25 @@
 {
-	"name" : "orpheus/orpheus-cache",
-	"description" : "Orpheus Cache",
-	"keywords" : [
+	"name": "orpheus/orpheus-cache",
+	"description": "Orpheus Cache",
+	"type": "library",
+	"license": "MIT",
+	"keywords": [
 		"orpheus",
 		"cache",
 		"filesystem",
 		"apc"
 	],
-	"autoload" : {
-		"psr-4" : {
-			"Orpheus\\" : "src"
+	"autoload": {
+		"psr-4": {
+			"Orpheus\\": "src/"
 		}
 	},
-	"type" : "library",
-	"license" : "MIT",
-	"authors" : [{
-			"name" : "Florent HAZARD",
-			"email" : "contact@sowapps.com",
-			"homepage" : "http://sowapps.com",
-			"role" : "Developer"
+	"authors": [
+		{
+			"name": "Florent HAZARD",
+			"email": "contact@sowapps.com",
+			"homepage": "http://sowapps.com",
+			"role": "Developer"
 		}
 	]
 }
