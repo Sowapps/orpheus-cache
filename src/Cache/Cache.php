@@ -1,39 +1,69 @@
 <?php
 /**
- * Cache
+ * @author Florent Hazard <contact@sowapps.com>
  */
 
 namespace Orpheus\Cache; 
 
 /**
- * The cache interface
- * 
  * The interface to use to define a cache class.
+ *
+ * @package orpheus-cache
  */
 interface Cache {
 	
 	/**
 	 * Get the cache for the given parameters
+	 * The type of the data should be preserved, even for objects.
 	 * 
-	 * @param $cached The output to get the cache
-	 * @return True if cache has been retrieved
-	 * 
-	 * The type should preserved, even for objects.
+	 * @param mixed $cached The output to get the cache
+	 * @return bool True if cache has been retrieved
 	 */
-	public function get(&$cached);
+	function get(mixed &$cached): bool;
 	
 	/**
 	 * Set the cache for the given parameters
 	 * 
-	 * @param $data The data to put in the cache
-	 * @return True if cache has been saved
+	 * @param mixed $data The data to put in the cache
+	 * @return bool True if cache has been saved
 	 */
-	public function set($data);
+	function set(mixed $data): bool;
 
 	/**
 	 * Reset the cache
 	 * 
-	 * @return boolean True in case of success
+	 * @return bool True in case of success
 	 */
-	public function reset();
+	function clear(): bool;
+	
+	/**
+	 * Class of the cache
+	 */
+	function getClass(): ?string;
+	
+	/**
+	 * Name of the cache's class
+	 */
+	function getName(): string;
+	
+	/**
+	 * Get size in bytes. 0 if none.
+	 */
+	function getSize(): int;
+	
+	/**
+	 * Get hit count.
+	 * Null if not supported
+	 */
+	function getHits(): ?int;
+	
+	/**
+	 * List all
+	 */
+	static function list(): array;
+	
+	/**
+	 * Clear all
+	 */
+	static function clearAll(): bool;
 }
