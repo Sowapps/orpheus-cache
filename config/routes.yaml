@@ -1,0 +1,7 @@
+cli:
+    cache-list:
+        path: "cache-list"
+        controller: "Orpheus\\Cache\\Controller\\CacheListCliController"
+    cache-clear:
+        path: "cache-clear"
+        controller: "Orpheus\\Cache\\Controller\\CacheClearCliController"

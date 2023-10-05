@@ -228,7 +228,7 @@ class ApcCache implements Cache {
 	
 	public static function isSupportingApcu(): bool {
 		if( static::$supportsApcu === null ) {
-			static::$supportsApcu = function_exists('apcu_fetch');
+			static::$supportsApcu = function_exists('apcu_fetch') && apcu_enabled();
 		}
 		
 		return static::$supportsApcu;
